@@ -4,18 +4,14 @@
   border-right: 1px solid #e0e0e0;
   padding: 1rem;
   box-sizing: border-box;
-
-  /* Animation */
   transition: margin-left 0.3s ease, opacity 0.3s ease;
 }
 
-/* Quand sidebar ouverte */
 .open {
   margin-left: 0;
   opacity: 1;
 }
 
-/* Quand sidebar fermée */
 .closed {
   margin-left: -240px;
   opacity: 0;
@@ -35,9 +31,13 @@
 .item {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0;
+  gap: 8px;
+  padding: 8px 12px;
+  text-decoration: none;
+  border-radius: 8px;
+  color: #333;
   cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .item:hover {
@@ -48,4 +48,32 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
+}
+
+.active {
+  background-color: #d4f5e1;
+  color: #1B8C3E;
+  font-weight: 600;
+}
+.projectItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.actions {
+  display: flex;
+  gap: 6px;
+}
+
+.editBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.deleteBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
 }
