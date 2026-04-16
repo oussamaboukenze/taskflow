@@ -1,25 +1,34 @@
 import { useState } from 'react';
 import { Box, Card, CardContent, TextField, Button, Typography, Alert } from
     '@mui/material';
-import { useAuth } from './AuthContext';
+import { useSelector, useDispatch } from 'react-redux';
+import { type RootState } from '../../store';
+import { loginStart, loginSuccess, loginFailure } from './authSlice';
 import api from '../../api/axios';
 export default function LoginMUI() {
-    const { state, dispatch } = useAuth();
+    const dispatch = useDispatch();
+    const { user, loading, error } = useSelector((state: RootState) => state.auth);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
-        dispatch({ type: 'LOGIN_START' });
+        dispatch(loginStart());
         try {
             const { data: users } = await api.get(`/users?email=${email}`);
             if (users.length === 0 || users[0].password !== password) {
-                dispatch({ type: 'LOGIN_FAILURE', payload: 'Email ou mot de passe incorrect' });
+                dispatch(loginFailure('Email ou mot de passe incorrect'));
                 return;
             }
             const { password: _, ...user } = users[0];
-            dispatch({ type: 'LOGIN_SUCCESS', payload: user });
+            const fakeToken = btoa(JSON.stringify({
+                userId: user.id,
+                email: user.email,
+                role: 'admin',
+                exp: Date.now() + 3600000, // 1h
+            }));
+            dispatch(loginSuccess({ user: { ...user, token: fakeToken }, token: fakeToken }));
         } catch {
-            dispatch({ type: 'LOGIN_FAILURE', payload: 'Erreur serveur' });
+            dispatch(loginFailure('Erreur serveur'));
         }
     }
     return (
@@ -35,7 +44,7 @@ export default function LoginMUI() {
                     <Typography variant="body2" align="center" color="text.secondary">
                         Connectez-vous pour continuer
                     </Typography>
-                    {state.error && <Alert severity="error">{state.error}</Alert>}
+                    {error && <Alert severity="error">{error}</Alert>}
                     <form onSubmit={handleSubmit} style={{
                         display: 'flex', flexDirection: 'column',
                         gap: '16px'
@@ -44,9 +53,9 @@ export default function LoginMUI() {
                             onChange={e => setEmail(e.target.value)} fullWidth required />
                         <TextField label="Mot de passe" type="password" value={password}
                             onChange={e => setPassword(e.target.value)} fullWidth required />
-                        <Button type="submit" variant="contained" fullWidth disabled={state.loading}
+                        <Button type="submit" variant="contained" fullWidth disabled={loading}
                             sx={{ bgcolor: '#1B8C3E', '&:hover': { bgcolor: '#157a33' } }}>
-                            {state.loading ? 'Connexion...' : 'Se connecter'}
+                            {loading ? 'Connexion...' : 'Se connecter'}
                         </Button>
                     </form>
                 </CardContent>

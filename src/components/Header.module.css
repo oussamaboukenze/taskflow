@@ -3,44 +3,67 @@
   justify-content: space-between;
   align-items: center;
   height: 56px;
-  background-color: #1B8C3E;
+  background: #1B8C3E;
   color: white;
-  padding: 0 1.5rem;
+  padding: 0 16px;
 }
 
 .left {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 12px;
 }
 
 .menuBtn {
-  background: transparent;
+  background: none;
   border: none;
   color: white;
-  font-size: 1.5rem;
+  font-size: 20px;
   cursor: pointer;
 }
 
-.menuBtn:hover {
-  opacity: 0.8;
-}
-
 .logo {
-  font-size: 1.2rem;
-  font-weight: 600;
   margin: 0;
+  font-size: 20px;
+  font-weight: 600;
 }
 
 .avatar {
-  background-color: rgba(255, 255, 255, 0.2);
-  padding: 0.4rem 0.7rem;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  font-weight: bold;
+  background: white;
+  opacity: 0.6;
+  color: #1B8C3E;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 12px;
 }
-.right { display: flex; align-items: center; gap: 1rem; } 
-.userName { font-size: 0.9rem; opacity: 0.9; } 
-.logoutBtn { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); 
-  color: white; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; 
-  font-size: 0.85rem; transition: background 0.2s; } 
-.logoutBtn:hover { background: rgba(255,255,255,0.25); }
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.userName {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.logoutBtn {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.2s;
+}
+
+.logoutBtn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}

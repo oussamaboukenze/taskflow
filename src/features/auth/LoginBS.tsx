@@ -1,25 +1,18 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useState } from 'react';
 import { Container, Card, Form, Button, Alert } from 'react-bootstrap';
 import { useAuth } from './AuthContext';
 import api from '../../api/axios';
 
 export default function LoginBS() {
-  const navigate = useNavigate();
-  const location = useLocation();
+
   const { state, dispatch } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const from = (location.state as any)?.from || '/dashboard';
-
-  useEffect(() => {
-    if (state.user) navigate(from, { replace: true });
-  }, [state.user, navigate, from]);
-
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
     dispatch({ type: 'LOGIN_START' });
 
     try {
@@ -34,7 +27,11 @@ export default function LoginBS() {
       }
 
       const { password: _, ...user } = users[0];
-      dispatch({ type: 'LOGIN_SUCCESS', payload: user });
+
+      dispatch({
+        type: 'LOGIN_SUCCESS',
+        payload: user
+      });
 
     } catch {
       dispatch({
@@ -53,15 +50,13 @@ export default function LoginBS() {
         <Card.Body>
 
           <Card.Title
-            className="text-center fw-bold"
-            style={{ color: '#1B8C3E' }}
+            className="text-center"
+            style={{ color: '#1B8C3E', fontWeight: 'bold' }}
           >
             TaskFlow
           </Card.Title>
 
-          {state.error && (
-            <Alert variant="danger">{state.error}</Alert>
-          )}
+          {state.error && <Alert variant="danger">{state.error}</Alert>}
 
           <Form onSubmit={handleSubmit}>
 
@@ -70,7 +65,7 @@ export default function LoginBS() {
                 type="email"
                 placeholder="Email"
                 value={email}
-                onChange={e => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </Form.Group>
@@ -80,7 +75,7 @@ export default function LoginBS() {
                 type="password"
                 placeholder="Mot de passe"
                 value={password}
-                onChange={e => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 required
               />
             </Form.Group>
